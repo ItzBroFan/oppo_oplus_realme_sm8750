@@ -4,7 +4,7 @@ env:
   TZ: Asia/Shanghai
   ANDROID_VERSION: 'android15'
   KERNEL_VERSION: '6.6'
-  KERNEL_NAME: 'android15-8-g29d86c5fc9dd-abogki428889875-4k'
+  KERNEL_NAME: 'android15-8-g0261dbe3cf7e-ab12786384-4k'
 
 on:
   workflow_dispatch:
@@ -553,7 +553,12 @@ jobs:
           fi
           sed -i 's/${scm_version}//' ./common/scripts/setlocalversion
           echo "CONFIG_LOCALVERSION_AUTO=n" >> ./common/arch/arm64/configs/gki_defconfig
-           
+      
+      - name: Set Kernel Time
+        run: |
+          echo 'KERNEL_TIME=Wed Dec 11 19:16:38 UTC 2024' >> $GITHUB_ENV
+          echo "Using fixed kernel time: ${{ env.KERNEL_TIME }}"     
+      
       - name: 构建内核
         run: |
           WORKDIR="$(pwd)"
